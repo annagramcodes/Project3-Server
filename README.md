@@ -81,22 +81,6 @@ Components:
 - Style Cards
 - Navbar
 
-## Services
-
-- **Auth Service**
-
-  <!-- - `authService` :
-    - `.login(user)`
-    - `.signup(user)`
-    - `.logout()`
-    - `.validate()` -->
-
-- **User Service**
-
-- ** Service**
-
-- ** Service**
-
 <br>
 
 # Server / Backend
@@ -137,7 +121,7 @@ Components:
    }
    ]
    requestsReceived: [ { type: Schema.Types.ObjectId, ref:'Request' } ],
-   portfolio: [
+   portfolioImg: [
       {
         type: String,
       },
@@ -179,6 +163,7 @@ Components:
 
 ## API's
 
+Cloudinary
 <br>
 
 ## Packages
@@ -198,9 +183,9 @@ Toastify
 
 The url to your repository and to your deployed project
 
-[Client repository Link](https://github.com/screeeen/project-client)
+[Client repository Link](https://github.com/annagramcodes/Project3-Client)
 
-[Server repository Link](https://github.com/screeeen/project-server)
+[Server repository Link](https://github.com/annagramcodes/Project3-Server)
 
 [Deployed App Link](http://heroku.com)
 
