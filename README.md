@@ -36,26 +36,20 @@ This is an app to find tattoo artists in Lisbon, and you can signup as a tattoo 
 
 ## React Router Routes (React App)
 
-| Path            | Component   | Permissions                         | Behavior                                          |
-| --------------- | ----------- | ----------------------------------- | ------------------------------------------------- |
-| `/login`        | LoginPage   | anon only `<AnonRoute>`             | Login form, navigates to home page after login.   |
-| `/signup`       | SignupPage  | anon only `<AnonRoute>`             | Signup form, navigates to home page after signup. |
-| `/`             | HomePage    | public `<Route>`                    | Home page.                                        |
-| `/user-profile` | ProfilePage | user (client) only `<PrivateRoute>` | User profile for the current user.                |
-
-|
-|
-| `/tatto-artist-profile` | ProfilePage | artist only `<PrivateRoute>` | Artist profile for the current user.  
-|
-| `/user-profile/edit/:id` | EditProfilePage | user only `<PrivateRoute>` | Edit user profile form.  
-|
-| `/tatto-artist-profile/edit/:id` | EditProfilePage | artist only `<PrivateRoute>` | Edit artist profile form.
-|  
-| `/request/add` | AddRequestPage | user only `<PrivateRoute>` | Create new request. |
-| `/request/edit/:id` | EditRequestPage | user only `<PrivateRoute>` | Edit a request. |
-| `/request/view/:id` | ViewRequestPage | artist only `<PrivateRoute>` | Singular request. |
-| `/discover` | DiscoverPage | user only `<PrivateRoute>` | Shows artists by style. |
-| `/explore` | ExplorePage | user only `<PrivateRoute>` | Gallery of tattoos. |
+| Path                             | Component       | Permissions                         | Behavior                                          |
+| -------------------------------- | --------------- | ----------------------------------- | ------------------------------------------------- |
+| `/login`                         | LoginPage       | anon only `<AnonRoute>`             | Login form, navigates to home page after login.   |
+| `/signup`                        | SignupPage      | anon only `<AnonRoute>`             | Signup form, navigates to home page after signup. |
+| `/`                              | HomePage        | public `<Route>`                    | Home page.                                        |
+| `/user-profile`                  | ProfilePage     | user (client) only `<PrivateRoute>` | User profile for the current user.                |
+| `/tatto-artist-profile`          | ProfilePage     | artist only `<PrivateRoute>`        | Artist profile for the current user.              |
+| `/user-profile/edit/:id`         | EditProfilePage | user only `<PrivateRoute>`          | Edit user profile form.                           |
+| `/tatto-artist-profile/edit/:id` | EditProfilePage | artist only `<PrivateRoute>`        | Edit artist profile form.                         |
+| `/request/add`                   | AddRequestPage  | user only `<PrivateRoute>`          | Create new request.                               |
+| `/request/edit/:id`              | EditRequestPage | user only `<PrivateRoute>`          | Edit a request.                                   |
+| `/request/view/:id`              | ViewRequestPage | artist only `<PrivateRoute>`        | Singular request.                                 |
+| `/discover`                      | DiscoverPage    | user only `<PrivateRoute>`          | Shows artists by style.                           |
+| `/explore`                       | ExplorePage     | user only `<PrivateRoute>`          | Gallery of tattoos.                               |
 
 ## Components
 
