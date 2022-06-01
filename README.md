@@ -94,7 +94,8 @@ Components:
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-	role: { type: String, enum:[user, artist] },
+	role: { type: String, enum:[client, artist] },
+  favorites: [ { type: Schema.Types.ObjectId, ref:'Business' } ],
   imageUrl: {
     type: String,
    },
@@ -135,6 +136,27 @@ Components:
 {
   requestedBy: [ { type: Schema.Types.ObjectId, ref:'User' } ],
  requestedFor: [ { type: Schema.Types.ObjectId, ref:'BusinessProfile' } ],
+ placement: {
+   type: String
+ },
+ size: {
+   type: String
+ },
+ color: {
+   type: Boolean
+ },
+ description: {
+   type: String
+ },
+ imageUrl: {
+   type: String
+ },
+ budget: {
+   type: Number
+ },
+appointmentDate: {
+type: Date
+}
 }
 ```
 
