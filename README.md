@@ -43,11 +43,11 @@ This is an app to find tattoo artists in Lisbon, and you can signup as a tattoo 
 | `/`                              | HomePage        | public `<Route>`                    | Home page.                                        |
 | `/user-profile`                  | ProfilePage     | user (client) only `<PrivateRoute>` | User profile for the current user.                |
 | `/tatto-artist-profile`          | ProfilePage     | artist only `<PrivateRoute>`        | Artist profile for the current user.              |
-| `/user-profile/edit/:id`         | EditProfilePage | user only `<PrivateRoute>`          | Edit user profile form.                           |
-| `/tatto-artist-profile/edit/:id` | EditProfilePage | artist only `<PrivateRoute>`        | Edit artist profile form.                         |
+| `/user-profile/:id/edit`         | EditProfilePage | user only `<PrivateRoute>`          | Edit user profile form.                           |
+| `/tatto-artist-profile/:id/edit` | EditProfilePage | artist only `<PrivateRoute>`        | Edit artist profile form.                         |
 | `/request/add`                   | AddRequestPage  | user only `<PrivateRoute>`          | Create new request.                               |
-| `/request/edit/:id`              | EditRequestPage | user only `<PrivateRoute>`          | Edit a request.                                   |
-| `/request/view/:id`              | ViewRequestPage | artist only `<PrivateRoute>`        | Singular request.                                 |
+| `/request/:id/edit`              | EditRequestPage | user only `<PrivateRoute>`          | Edit a request.                                   |
+| `/request/:id`                   | ViewRequestPage | artist only `<PrivateRoute>`        | Singular request.                                 |
 | `/discover`                      | DiscoverPage    | user only `<PrivateRoute>`          | Shows artists by style.                           |
 | `/explore`                       | ExplorePage     | user only `<PrivateRoute>`          | Gallery of tattoos.                               |
 
@@ -95,7 +95,7 @@ Components:
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
 	role: { type: String, enum:[client, artist] },
-  favorites: [ { type: Schema.Types.ObjectId, ref:'Business' } ],
+  favorites: [ { type: Schema.Types.ObjectId, ref:'Artist' } ],
   imageUrl: {
     type: String,
    },
@@ -103,7 +103,7 @@ Components:
 }
 ```
 
-**Business profile model**
+**Artist profile model**
 
 ```javascript
  {
@@ -120,7 +120,7 @@ Components:
       },
     ],
    }
-   ]
+   ],
    requestsReceived: [ { type: Schema.Types.ObjectId, ref:'Request' } ],
    portfolioImg: [
       {
@@ -166,18 +166,18 @@ type: Date
 
 | HTTP Method | URL                         | Request Body            | Success status | Error Status | Description                                                                                                                     |
 | ----------- | --------------------------- | ----------------------- | -------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------- |
-| GET         | `/auth/profile `            | Saved session           | 200            | 404          | Check if user is logged in and return profile page                                                                              |
+|             |
 | POST        | `/auth/signup`              | {name, email, password} | 201            | 404          | Checks if fields not empty (422) and user not exists (409), then create user with encrypted password, and store user in session |
 | POST        | `/auth/login`               | {username, password}    | 200            | 401          | Checks if fields not empty (422), if user exists (404), and if password matches (404), then stores user in session              |
 | POST        | `/auth/logout`              |                         | 204            | 400          | Logs out the user                                                                                                               |
 | GET         | `/api/requests`             |                         |                | 400          | Show all requets                                                                                                                |
 | GET         | `/api/requests/:id/details` |                         |                |              | Show specific request                                                                                                           |
 | POST        | `/api/requests/create`      |                         | 201            | 400          | Create a new request                                                                                                            |
-| PUT         | `/api/requests/:id/edit`    |                         | 200            | 400          | edit request                                                                                                                    |
-| DELETE      | `/api/requests/:id/delete`  |                         | 201            | 400          | delete request                                                                                                                  |
+| PUT         | `/api/requests/:id`         |                         | 200            | 400          | edit request                                                                                                                    |
+| DELETE      | `/api/requests/:id`         |                         | 201            | 400          | delete request                                                                                                                  |
 | GET         | `/api/user/:id`             |                         |                |              | Show specific user                                                                                                              |
-| PUT         | `/api/user/:id/edit`        |                         | 200            | 400          | edit user                                                                                                                       |
-| DELETE      | `/api/user/:id/delete`      |                         | 201            | 400          | delete user                                                                                                                     |
+| PUT         | `/api/user/:id`             |                         | 200            | 400          | edit user                                                                                                                       |
+| DELETE      | `/api/user/:id`             |                         | 201            | 400          | delete user                                                                                                                     |
 | GET         | `/api/discover`             |                         |                |              | filter artists by style                                                                                                         |
 | GET         | `/api/explore`              |                         | 200            | 404          | display tattoo images                                                                                                           |
 
@@ -218,6 +218,6 @@ The url to your repository and to your deployed project
 
 ### Contributors
 
-Alexandre Alves - <https://github.com/aletrad> - <https://www.linkedin.com/in/alexandre-alves-dev/>
+Alexandre Alves - <ghttps://github.com/aletrad> - <https://www.linkedin.com/in/alexandre-alves-dev/>
 
 Anna Egger - <https://github.com/annagramcodes> - <https://www.linkedin.com/in/anna-egger/>
