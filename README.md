@@ -8,27 +8,27 @@
 
 ## Description
 
-This is an app to manage unofficial tournaments within communities. The app helps to organize, manage and track competitions.
+This is an app to find tattoo artists in Lisbon, and you can signup as a tattoo artist to display tour work in order to connect the tattoo artists with people who want to get a tattoo.
 
 ## User Stories
 
 - **404:** As a user I get to see a 404 page with a feedback message if I try to reach a page that does not exist so that I know it's my fault.
-- **Signup:** As an anonymous user I can sign up on the platform so that I can start creating and managing tournaments.
-- **Login:** As a user I can login to the platform so that I can access my profile and start creating and managing tournaments.
-- **Logout:** As a logged in user I can logout from the platform so no one else can use it.
-- **Profile Page**: As a logged in user I can visit my profile page so that I can access the edit page and see the list of tournaments I have created.
-- **Add Tournaments:** As a logged in user I can access the add tournament page so that I can create a new tournament.
-- **Edit Tournaments:** As a logged in user I can access the edit tournament page so that I can edit the tournament I created.
-- **Add Players:** As a user I can add players to a tournament.
-- **View Tournament Table:** As a user I want to see the tournament details, players list and the time table.
-- **View Ranks:** As a user I can see the rankings list for the tournament.
+- **Signup:** As an anonymous user I can sign up on the platform so that I can start looking for a tattoo artist. As a tattoo artist I can sign up on the platform so that I can showcase my work.
+- **Login:** As a user I can login to the platform so that I can access my profile and get in contact with a tattoo artist. As a tattoo artist I can login to the platform so that I can access my profile and receive requests from users.
+- **Logout:** As a logged in user I can logout from the platform so no one else can use it. As a logged in tattoo artist I can logout from the platform so no one else can use it.
+- **Profile Page**: As a logged in user I can visit my profile page so that I can access the edit page and see my favorite artists and my requests.
+- **Business Profile Page**: As a logged in artist I can visit my profile page so that I can access the edit page and see user requests.
+- **Home Page:** As a user I can see information about the app and links to other pages.
+- **Add Requests:** As a logged in user I can access the add request page so that I can create a new request.
+- **Edit Requests:** As a logged in user I can access the edit request page so that I can edit the request I created.
+- **View Requests:** As a logged in artist I can access the view request page so that I can view requests.
+- **Discover Artists:** As a logged in user I can access the discover artist page so that I filter artists by style.
+- **Explore Tattoos:** As a logged in user I can access the explore tattoo page to get some inspiration.
 
 ## Backlog
 
-- Add weather widget
-- lottie interactions
-- users can bet
-- add geolocation to events when creating
+- Add google maps
+- Add chat
 
 <br>
 
@@ -36,18 +36,26 @@ This is an app to manage unofficial tournaments within communities. The app help
 
 ## React Router Routes (React App)
 
-| Path                         | Component            | Permissions                | Behavior                                                  |
-| ---------------------------- | -------------------- | -------------------------- | --------------------------------------------------------- |
-| `/login`                     | LoginPage            | anon only `<AnonRoute>`    | Login form, navigates to home page after login.           |
-| `/signup`                    | SignupPage           | anon only `<AnonRoute>`    | Signup form, navigates to home page after signup.         |
-| `/`                          | HomePage             | public `<Route>`           | Home page.                                                |
-| `/user-profile`              | ProfilePage          | user only `<PrivateRoute>` | User and player profile for the current user.             |
-| `/user-profile/edit`         | EditProfilePage      | user only `<PrivateRoute>` | Edit user profile form.                                   |
-| `/tournaments/add`           | CreateTournamentPage | user only `<PrivateRoute>` | Create new tournament form.                               |
-| `/tournaments`               | TournamentListPage   | user only `<PrivateRoute>` | Tournaments list.                                         |
-| `/tournaments/:tournamentId` | TournamentDetailPage | user only `<PrivateRoute>` | Tournament details. Shows players list and other details. |
-| `/tournament/players/:id`    | PlayerDetailsPage    | user only `<PrivateRoute>` | Single player details.                                    |
-| `/rankings/:tournamentId`    | RankingsPage         | user only `<PrivateRoute>` | Tournament rankings list.                                 |
+| Path            | Component   | Permissions                         | Behavior                                          |
+| --------------- | ----------- | ----------------------------------- | ------------------------------------------------- |
+| `/login`        | LoginPage   | anon only `<AnonRoute>`             | Login form, navigates to home page after login.   |
+| `/signup`       | SignupPage  | anon only `<AnonRoute>`             | Signup form, navigates to home page after signup. |
+| `/`             | HomePage    | public `<Route>`                    | Home page.                                        |
+| `/user-profile` | ProfilePage | user (client) only `<PrivateRoute>` | User profile for the current user.                |
+
+|
+|
+| `/tatto-artist-profile` | ProfilePage | artist only `<PrivateRoute>` | Artist profile for the current user.  
+|
+| `/user-profile/edit/:id` | EditProfilePage | user only `<PrivateRoute>` | Edit user profile form.  
+|
+| `/tatto-artist-profile/edit/:id` | EditProfilePage | artist only `<PrivateRoute>` | Edit artist profile form.
+|  
+| `/request/add` | AddRequestPage | user only `<PrivateRoute>` | Create new request. |
+| `/request/edit/:id` | EditRequestPage | user only `<PrivateRoute>` | Edit a request. |
+| `/request/view/:id` | ViewRequestPage | artist only `<PrivateRoute>` | Singular request. |
+| `/discover` | DiscoverPage | user only `<PrivateRoute>` | Shows artists by style. |
+| `/explore` | ExplorePage | user only `<PrivateRoute>` | Gallery of tattoos. |
 
 ## Components
 
@@ -59,55 +67,41 @@ Pages:
 
 - HomePage
 
-- ProfilePage
+- ProfilePages
 
-- EditProfilePage
+- EditProfilePages
 
-- CreateTournamentPage
+- AddRequestPage
 
-- TournamentListPage
+- EditRequestPage
 
-- TournamentDetailsPage
+- ViewRequestPage
 
-- PlayerDetailsPage
+- DiscoverPage
 
-- RankingsPage
+- ExplorePage
 
 Components:
 
-- PlayerCard
-- TournamentCard
+- Artist Cards
+- Style Cards
 - Navbar
 
 ## Services
 
 - **Auth Service**
 
-  - `authService` :
+  <!-- - `authService` :
     - `.login(user)`
     - `.signup(user)`
     - `.logout()`
-    - `.validate()`
+    - `.validate()` -->
 
 - **User Service**
 
-  - `userService` :
-    - `.updateCurrentUser(id, userData)`
-    - `.getCurrentUser()`
+- ** Service**
 
-- **Tournament Service**
-
-  - `tournamentService` :
-    - `.addTournament(tournamentData)`
-    - `.getTournaments()`
-    - `.getOneTournament(id)`
-    - `.deleteTournament(id)`
-
-- **Player Service**
-
-  - `playerService` :
-    - `.createPlayer(id)`
-    - `.getPlayerDetails(id)`
+- ** Service**
 
 <br>
 
@@ -119,33 +113,50 @@ Components:
 
 ```javascript
 {
+  name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-	playerProfile: { type: Schema.Types.ObjectId, ref:'Player' },
-  createdTournaments: [ { type: Schema.Types.ObjectId, ref:'Tournament' } ]
+	role: { type: String, enum:[user, artist] },
+  imageUrl: {
+    type: String,
+   },
+  requestsMade: [ { type: Schema.Types.ObjectId, ref:'Request' } ]
 }
 ```
 
-**Tournament model**
+**Business profile model**
 
 ```javascript
  {
    name: { type: String, required: true },
-   img: { type: String },
-   players: [ { type: Schema.Types.ObjectId, ref:'Player' } ],
-   games: [],
-   rankings: []
- }
+   location: { type: String },
+   style: { type: String },
+   flash: [ {
+   price: {type: Number},
+   size: {type: String},
+   estimatedTime: {type: String},
+   imageUrl: [
+      {
+        type: String,
+      },
+    ],
+   }
+   ]
+   requestsReceived: [ { type: Schema.Types.ObjectId, ref:'Request' } ],
+   portfolio: [
+      {
+        type: String,
+      },
+    ],
+   }
 ```
 
-**Player model**
+**Request model**
 
 ```javascript
 {
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
-  profileImage: { type: String },
-  scores: []
+  requestedBy: [ { type: Schema.Types.ObjectId, ref:'User' } ],
+ requestedFor: [ { type: Schema.Types.ObjectId, ref:'BusinessProfile' } ],
 }
 ```
 
@@ -153,25 +164,22 @@ Components:
 
 ## API Endpoints (backend routes)
 
-| HTTP Method | URL                    | Request Body                 | Success status | Error Status | Description                                                                                                                     |
-| ----------- | ---------------------- | ---------------------------- | -------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------- |
-| GET         | `/auth/profile `       | Saved session                | 200            | 404          | Check if user is logged in and return profile page                                                                              |
-| POST        | `/auth/signup`         | {name, email, password}      | 201            | 404          | Checks if fields not empty (422) and user not exists (409), then create user with encrypted password, and store user in session |
-| POST        | `/auth/login`          | {username, password}         | 200            | 401          | Checks if fields not empty (422), if user exists (404), and if password matches (404), then stores user in session              |
-| POST        | `/auth/logout`         |                              | 204            | 400          | Logs out the user                                                                                                               |
-| GET         | `/api/tournaments`     |                              |                | 400          | Show all tournaments                                                                                                            |
-| GET         | `/api/tournaments/:id` |                              |                |              | Show specific tournament                                                                                                        |
-| POST        | `/api/tournaments`     | { name, img, players }       | 201            | 400          | Create and save a new tournament                                                                                                |
-| PUT         | `/api/tournaments/:id` | { name, img, players }       | 200            | 400          | edit tournament                                                                                                                 |
-| DELETE      | `/api/tournaments/:id` |                              | 201            | 400          | delete tournament                                                                                                               |
-| GET         | `/api/players/:id`     |                              |                |              | show specific player                                                                                                            |
-| POST        | `/api/players`         | { name, img, tournamentId }  | 200            | 404          | add player                                                                                                                      |
-| PUT         | `/api/players/:id`     | { name, img }                | 201            | 400          | edit player                                                                                                                     |
-| DELETE      | `/api/players/:id`     |                              | 200            | 400          | delete player                                                                                                                   |
-| GET         | `/api/games`           |                              | 201            | 400          | show games                                                                                                                      |
-| GET         | `/api/games/:id`       |                              |                |              | show specific game                                                                                                              |
-| POST        | `/api/games`           | {player1,player2,winner,img} |                |              | add game                                                                                                                        |
-| PUT         | `/api/games/:id`       | {winner,score}               |                |              | edit game                                                                                                                       |
+| HTTP Method | URL                         | Request Body            | Success status | Error Status | Description                                                                                                                     |
+| ----------- | --------------------------- | ----------------------- | -------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| GET         | `/auth/profile `            | Saved session           | 200            | 404          | Check if user is logged in and return profile page                                                                              |
+| POST        | `/auth/signup`              | {name, email, password} | 201            | 404          | Checks if fields not empty (422) and user not exists (409), then create user with encrypted password, and store user in session |
+| POST        | `/auth/login`               | {username, password}    | 200            | 401          | Checks if fields not empty (422), if user exists (404), and if password matches (404), then stores user in session              |
+| POST        | `/auth/logout`              |                         | 204            | 400          | Logs out the user                                                                                                               |
+| GET         | `/api/requests`             |                         |                | 400          | Show all requets                                                                                                                |
+| GET         | `/api/requests/:id/details` |                         |                |              | Show specific request                                                                                                           |
+| POST        | `/api/requests/create`      |                         | 201            | 400          | Create a new request                                                                                                            |
+| PUT         | `/api/requests/:id/edit`    |                         | 200            | 400          | edit request                                                                                                                    |
+| DELETE      | `/api/requests/:id/delete`  |                         | 201            | 400          | delete request                                                                                                                  |
+| GET         | `/api/user/:id`             |                         |                |              | Show specific user                                                                                                              |
+| PUT         | `/api/user/:id/edit`        |                         | 200            | 400          | edit user                                                                                                                       |
+| DELETE      | `/api/user/:id/delete`      |                         | 201            | 400          | delete user                                                                                                                     |
+| GET         | `/api/discover`             |                         |                |              | filter artists by style                                                                                                         |
+| GET         | `/api/explore`              |                         | 200            | 404          | display tattoo images                                                                                                           |
 
 <br>
 
@@ -180,6 +188,9 @@ Components:
 <br>
 
 ## Packages
+
+Chackra-UI
+Toastify
 
 <br>
 
