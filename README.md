@@ -200,7 +200,11 @@ React-Calendar
 
 ### Trello/Kanban
 
+<<<<<<< HEAD
 [Link to your trello board](https://trello.com/invite/b/INu5hvUZ/d4121254e9d1eec5f58b192135d8b05f/project3-tattoo-app) or a picture of your physical board
+=======
+[Link to your trello board](https://trello.com/b/INu5hvUZ/project3-tattoo-app) or a picture of your physical board
+>>>>>>> 139be78c7bae371975be1f08e67b3687495ea100
 
 ### Git
 
