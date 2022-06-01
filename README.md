@@ -199,7 +199,7 @@ Toastify
 
 ### Trello/Kanban
 
-[Link to your trello board](https://trello.com/b/PBqtkUFX/curasan) or a picture of your physical board
+[Link to your trello board](https://trello.com/b/INu5hvUZ/project3-tattoo-app) or a picture of your physical board
 
 ### Git
 
