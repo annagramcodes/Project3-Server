@@ -8,11 +8,6 @@ const StylesSchema = new Schema({
     type: String,
   },
   artists: [{ type: Schema.Types.ObjectId, ref: "Artist" }],
-  portfolioImg: [
-    {
-      type: String,
-    },
-  ],
 });
 
 const Styles = model("Styles", StylesSchema);

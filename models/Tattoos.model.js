@@ -9,4 +9,4 @@ const TattoosSchema = new Schema({
 
 const Tattoos = model("Tattoos", TattoosSchema);
 
-module.exports = TattoosSchema;
+module.exports = Tattoos;

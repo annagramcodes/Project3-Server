@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 const requestSchema = new Schema({
-  requestedBy: [{ type: Schema.Types.ObjectId, ref: "User" }],
-  requestedFor: [{ type: Schema.Types.ObjectId, ref: "BusinessProfile" }],
+  requestedBy: { type: Schema.Types.ObjectId, ref: "User" },
+  requestedFor: { type: Schema.Types.ObjectId, ref: "Artist" },
   placement: {
     type: String,
   },
@@ -20,11 +20,9 @@ const requestSchema = new Schema({
   budget: {
     type: Number,
   },
-  appointmentDate: {
-    type: Date,
-  },
+  appointmentDate: Date,
 });
 
 const Request = model("Request", requestSchema);
 
-module.exports = requestSchema;
+module.exports = Request;
