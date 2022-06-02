@@ -9,11 +9,7 @@ const artistSchema = new Schema({
       price: { type: Number },
       size: { type: String },
       estimatedTime: { type: String },
-      imageUrl: [
-        {
-          type: String,
-        },
-      ],
+      imageUrl: { type: String },
     },
   ],
   requestsReceived: [{ type: Schema.Types.ObjectId, ref: "Request" }],
