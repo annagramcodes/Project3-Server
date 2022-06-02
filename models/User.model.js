@@ -7,7 +7,8 @@ const userSchema = new Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     profileType: { type: String, enum: ["client", "artist"], required: true },
-    favorites: [{ type: Schema.Types.ObjectId, ref: "Artist" }],
+    favoriteArtists: [{ type: Schema.Types.ObjectId, ref: "Artist" }],
+    favoriteTattoos: [{ type: Schema.Types.ObjectId, ref: "Tattoos" }],
     imageUrl: {
       type: String,
     },
