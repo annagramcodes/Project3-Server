@@ -30,6 +30,8 @@ app.use("/api", isAuthenticated, requestRouter);
 const artistRouter = require("./routes/artist.routes"); //  <== IMPORT
 app.use("/api", isAuthenticated, artistRouter);
 
+const userRouter = require("./routes/user.routes"); //  <== IMPORT
+app.use("/api", isAuthenticated, userRouter);
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
 
