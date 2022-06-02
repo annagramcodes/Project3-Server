@@ -81,7 +81,7 @@ router.post("/requests", async (req, res, next) => {
 // });
 
 // DELETE /api/requests/:requestId  - Delete a specific request
-router.delete("/api/requests/:requestId", async (req, res, next) => {
+router.delete("/requests/:requestId", async (req, res, next) => {
   try {
     const { requestId } = req.params;
 
@@ -94,15 +94,17 @@ router.delete("/api/requests/:requestId", async (req, res, next) => {
       .populate("requestedBy")
       .populate("requestedFor");
 
+    console.log(foundRequest);
+
     // Update user who created the request
-    const creatorUser = await User.findById(foundedRequest.requestedBy);
+    const creatorUser = await User.findById(foundRequest.requestedBy);
     const updatedCreatorUser = await User.findByIdAndUpdate(
       foundRequest.requestedBy,
       { $pull: { requestsMade: foundRequest._id } }
     );
-    const contactedArtist = await Artist.findById(foundedRequest.requestedFor);
+    const contactedArtist = await Artist.findById(foundRequest.requestedFor);
     const updatedcontactedArtist = await Artist.findByIdAndUpdate(
-      foundedRequest.requestedFor,
+      foundRequest.requestedFor,
       { $pull: { requestedReceived: foundRequest._id } }
     );
 
