@@ -4,6 +4,7 @@ const Artist = require("../models/Artist.model");
 const Request = require("../models/Request.model");
 
 router.post("/artist", async (req, res, next) => {
+  const { _id } = req.payload;
   try {
     // Get the data from the request body
     const {
@@ -17,6 +18,7 @@ router.post("/artist", async (req, res, next) => {
     console.log(req.body);
     // Save the data in the db
     const createdArtist = await Artist.create({
+      owner: _id,
       name,
       location,
       styles,
