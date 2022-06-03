@@ -18,6 +18,7 @@ const artistSchema = new Schema({
       type: String,
     },
   ],
+  owner: { type: Schema.Types.ObjectId, ref: "User" },
 });
 
 const Artist = model("Artist", artistSchema);

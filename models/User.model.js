@@ -11,7 +11,8 @@ const userSchema = new Schema(
     favoriteTattoos: [{ type: Schema.Types.ObjectId, ref: "Tattoos" }],
     imageUrl: {
       type: String,
-      default: "/public/images/mystery.jpg",
+      default:
+        "https://res.cloudinary.com/da1zyjl9a/image/upload/v1654255779/tattoos/mystery_odzbzo.jpg",
     },
     requestsMade: [{ type: Schema.Types.ObjectId, ref: "Request" }],
   },
