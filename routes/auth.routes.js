@@ -115,7 +115,6 @@ router.post("/login", (req, res, next) => {
         if (!isSamePassword) {
           return res.status(400).json({ errorMessage: "Wrong credentials." });
         }
-
         const { _id, email, username, imageUrl } = user;
 
         const payload = { _id, email, username, imageUrl };
