@@ -1,7 +1,6 @@
 const { Schema, model } = require("mongoose");
 
 const artistSchema = new Schema({
-  owner: { type: Schema.Types.ObjectId, ref: "User" },
   name: { type: String, required: true },
   location: { type: String },
   styles: [{ type: String }],
