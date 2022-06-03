@@ -14,7 +14,7 @@ router.get("/profile/:userId", (req, res, next) => {
 
 router.put(
   "/profile/:userId",
-  fileUploader.single("existingImage"),
+
   async (req, res, next) => {
     try {
       const { userId } = req.params;
@@ -27,13 +27,14 @@ router.put(
         res.status(400).json({ message: "Invalid object id" });
         return;
       }
-      const { username, email, password, existingImage } = req.body;
+      const { username, email, password, imageUrl } = req.body;
 
       let image;
-      if (req.file) {
-        image = req.file.path;
+      if (imageUrl) {
+        image = imageUrl;
       } else {
-        image = existingImage;
+        image =
+          "https://res.cloudinary.com/da1zyjl9a/image/upload/v1654255779/tattoos/mystery_odzbzo.jpg";
       }
 
       const updatedUser = await User.findByIdAndUpdate(
@@ -45,6 +46,7 @@ router.put(
       const payload = {
         _id: updatedUser._id,
         email: updatedUser.email,
+        imageUrl: updatedUser.imageUrl,
         username: updatedUser.username,
       };
 

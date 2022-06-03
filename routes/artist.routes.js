@@ -2,16 +2,28 @@ const router = require("express").Router();
 const mongoose = require("mongoose");
 const Artist = require("../models/Artist.model");
 const Request = require("../models/Request.model");
+const jwt = require("jsonwebtoken");
+const fileUploader = require("../config/cloudinary.config");
+
+router.get("/artist/:artistId", (req, res, next) => {
+  const { artistId } = req.params;
+
+  Artist.findById(artistId)
+    .then((response) => res.json(response))
+    .catch((err) => res.json(err));
+});
 
 router.post("/artist", async (req, res, next) => {
   const { _id } = req.payload;
+  console.log(req.body);
   try {
     // Get the data from the request body
     const {
       name,
+      businessHours,
       location,
       styles,
-      flashes: [{ price, size, estimatedTime, imageUrl }],
+      // flashes: [{ price, size, estimatedTime, imageUrl }],
       requestsReceived,
       portfolioImages,
     } = req.body;
@@ -20,15 +32,16 @@ router.post("/artist", async (req, res, next) => {
     const createdArtist = await Artist.create({
       owner: _id,
       name,
+      businessHours,
       location,
       styles,
       flashes: [
-        {
-          price,
-          size,
-          estimatedTime,
-          imageUrl,
-        },
+        // {
+        //   price,
+        //   size,
+        //   estimatedTime,
+        //   imageUrl,
+        // },
       ],
       requestsReceived,
       portfolioImages,
@@ -39,6 +52,7 @@ router.post("/artist", async (req, res, next) => {
     // Update user who created the request
     console.log({ createdArtist });
   } catch (error) {
+    console.log(error);
     res.status(500).json(error); // Internal Server Error
   }
 });
@@ -46,19 +60,29 @@ router.post("/artist", async (req, res, next) => {
 router.put("/artist/:artistId", async (req, res, next) => {
   try {
     const { artistId } = req.params;
+    const { _id } = req.payload;
+
     const {
       name,
       location,
+      businessHours,
       styles,
       flashes: [{ price, size, estimatedTime, imageUrl }],
       requestsReceived,
       portfolioImages,
+      owner,
     } = req.body;
+
+    if (_id != owner) {
+      res.status(403).json({ errorMessage: "Unauthorized user" });
+      return;
+    }
     const updatedArtist = await Artist.findByIdAndUpdate(
       artistId,
       {
         name,
         location,
+        businessHours,
         styles,
         flashes: [
           {

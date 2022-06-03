@@ -3,6 +3,7 @@ const { Schema, model } = require("mongoose");
 const artistSchema = new Schema({
   name: { type: String, required: true },
   location: { type: String },
+  businessHours: { type: String },
   styles: [{ type: String }],
   flashes: [
     {

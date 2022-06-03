@@ -69,7 +69,13 @@ router.post("/signup", (req, res) => {
         });
       })
       .then((user) => {
-        res.status(201).json(user);
+        const { _id, email, username, imageUrl } = user;
+        const payload = { _id, email, username, imageUrl };
+        const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
+          algorithm: "HS256",
+          expiresIn: "6h",
+        });
+        res.status(201).json({ authToken });
       })
       .catch((error) => {
         if (error instanceof mongoose.Error.ValidationError) {
@@ -124,7 +130,7 @@ router.post("/login", (req, res, next) => {
           expiresIn: "6h",
         });
 
-        return res.status(200).json({ authToken });
+        return res.status(200).json({ authToken, type: user.profileType });
       });
     })
 
