@@ -70,7 +70,9 @@ router.post("/signup", (req, res) => {
       })
       .then((user) => {
         const { _id, email, username, imageUrl } = user;
+
         const payload = { _id, email, username, imageUrl };
+
         const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
           algorithm: "HS256",
           expiresIn: "6h",

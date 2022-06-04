@@ -5,10 +5,20 @@ const Request = require("../models/Request.model");
 const jwt = require("jsonwebtoken");
 const fileUploader = require("../config/cloudinary.config");
 
+// get Artist by artistId
 router.get("/artist/:artistId", (req, res, next) => {
   const { artistId } = req.params;
 
   Artist.findById(artistId)
+    .then((response) => res.json(response))
+    .catch((err) => res.json(err));
+});
+
+// get Artist by userId
+router.get("/artist/byUser/:userId", (req, res, next) => {
+  const { userId } = req.params;
+
+  Artist.findOne({ owner: userId })
     .then((response) => res.json(response))
     .catch((err) => res.json(err));
 });
@@ -49,7 +59,6 @@ router.post("/artist", async (req, res, next) => {
 
     res.status(201).json(createdArtist); // 201 Created
 
-    // Update user who created the request
     console.log({ createdArtist });
   } catch (error) {
     console.log(error);
