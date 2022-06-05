@@ -76,7 +76,7 @@ router.put("/artist/:artistId", async (req, res, next) => {
       location,
       businessHours,
       styles,
-      flashes: [{ price, size, estimatedTime, imageUrl }],
+      flashes,
       requestsReceived,
       portfolioImages,
       owner,
@@ -93,14 +93,7 @@ router.put("/artist/:artistId", async (req, res, next) => {
         location,
         businessHours,
         styles,
-        flashes: [
-          {
-            price,
-            size,
-            estimatedTime,
-            imageUrl,
-          },
-        ],
+        flashes,
         requestsReceived,
         portfolioImages,
       },
@@ -112,6 +105,7 @@ router.put("/artist/:artistId", async (req, res, next) => {
     // Update user who created the request
     console.log({ updatedArtist });
   } catch (error) {
+    console.log(error);
     res.status(500).json(error); // Internal Server Error
   }
 });
