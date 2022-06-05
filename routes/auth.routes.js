@@ -69,9 +69,9 @@ router.post("/signup", (req, res) => {
         });
       })
       .then((user) => {
-        const { _id, email, username, imageUrl } = user;
+        const { _id, email, username, imageUrl, profileType } = user;
 
-        const payload = { _id, email, username, imageUrl };
+        const payload = { _id, email, username, imageUrl, profileType };
 
         const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
           algorithm: "HS256",
@@ -132,7 +132,7 @@ router.post("/login", (req, res, next) => {
           expiresIn: "6h",
         });
 
-        return res.status(200).json({ authToken, type: user.profileType });
+        return res.status(200).json({ authToken });
       });
     })
 

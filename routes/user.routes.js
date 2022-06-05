@@ -48,6 +48,7 @@ router.put(
         email: updatedUser.email,
         imageUrl: updatedUser.imageUrl,
         username: updatedUser.username,
+        profileType: updatedUser.profileType,
       };
 
       const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
