@@ -43,7 +43,7 @@ router.post("/requests/create", async (req, res, next) => {
       requestedBy,
       requestedFor,
     });
-
+    console.log(appointmentDate);
     res.status(201).json(createdRequest); // 201 Created
 
     // // Update user who created the request

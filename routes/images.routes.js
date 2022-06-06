@@ -6,6 +6,7 @@ router.post(
   fileUploader.array("imagesUrl", 10),
   (req, res, next) => {
     const newPhotos = [];
+    console.log(req.files);
 
     req.files.forEach((file) => {
       newPhotos.push(file.path);
