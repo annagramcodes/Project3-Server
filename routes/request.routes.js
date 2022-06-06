@@ -1,29 +1,31 @@
 const router = require("express").Router();
 const mongoose = require("mongoose");
-
+const fileUploader = require("../config/cloudinary.config");
 const Request = require("../models/Request.model");
-const User = require("../models/User.model");
-const Artist = require("../models/Artist.model");
+//const User = require("../models/User.model");
+//const Artist = require("../models/Artist.model");
 
-// GET /api/requests - Get all existing requests
-// router.get('/api/requests', async (req, res, next) => {
-// 	try {
-// 		const allRequests = await Requests.find().populate('requestedBy').populate('destination')
-// 		res.status(200).json(allRequests);
-// 	} catch (error) {
-// 		res.status(500).json(error);
-// 	}
-// });
+//GET /api/requests - Get all existing requests
+router.get("/requests", async (req, res, next) => {
+  try {
+    const allRequests = await Request.find()
+      .populate("requestedBy")
+      .populate("requestedFor");
+    res.status(200).json(allRequests);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
 
-router.post("/requests", async (req, res, next) => {
+router.post("/requests/create", async (req, res, next) => {
   try {
     // Get the data from the request body
     const {
       placement,
-      styles,
+      size,
       color,
       description,
-      imageUrl,
+      imagesUrl,
       budget,
       appointmentDate,
       requestedBy,
@@ -32,10 +34,10 @@ router.post("/requests", async (req, res, next) => {
     // Save the data in the db
     const createdRequest = await Request.create({
       placement,
-      styles,
+      size,
       color,
       description,
-      imageUrl,
+      imagesUrl,
       budget,
       appointmentDate,
       requestedBy,
@@ -44,43 +46,44 @@ router.post("/requests", async (req, res, next) => {
 
     res.status(201).json(createdRequest); // 201 Created
 
-    // Update user who created the request
-    console.log({ createdRequest });
+    // // Update user who created the request
+    // console.log({ createdRequest });
 
-    const updatedClient = await User.findByIdAndUpdate(requestedBy, {
-      $push: { requestsMade: createdRequest._id },
-    });
-    const updatedArtist = await Artist.findByIdAndUpdate(requestedFor, {
-      $push: { requestsReceived: createdRequest._id },
-    });
+    // const updatedClient = await User.findByIdAndUpdate(requestedBy, {
+    //   $push: { requestsMade: createdRequest._id },
+    // });
+    // const updatedArtist = await Artist.findByIdAndUpdate(requestedFor, {
+    //   $push: { requestsReceived: createdRequest._id },
+    // });
   } catch (error) {
     res.status(500).json(error); // Internal Server Error
   }
 });
 
-// GET /api/requests/:requestId  - Get a specific request
-// router.get('/api/requests/:requestId', async (req, res, next) => {
-// 	try {
-// 		// Get the request id from the URL
-// 		const { requestId } = req.params; //   in Express `:` means `req.params`
-// 		console.log(`requestId`, requestId);
+router.get("/requests/:requestId", async (req, res, next) => {
+  try {
+    // Get the request id from the URL
+    const { requestId } = req.params; //   in Express `:` means `req.params`
+    console.log(`requestId`, requestId);
 
-// 		if (!mongoose.Types.ObjectId.isValid(requestId)) {
-// 			res.status(400).json({ message: 'Invalid object id' });
-// 			return;
-// 		}
+    if (!mongoose.Types.ObjectId.isValid(requestId)) {
+      res.status(400).json({ message: "Invalid object id" });
+      return;
+    }
 
-// 		// Make a DB query
-// 		const oneRequest = await Requests.findById(requestId).populate('destination').populate('requestedBy');
+    // Make a DB query
+    const oneRequest = await Request.findById(requestId);
 
-// 		// Send the response
-// 		res.status(200).json(oneRequest);
-// 	} catch (error) {
-// 		res.status(500).json(error);
-// 	}
-// });
+    // .populate('destination').populate('requestedBy');
 
-// DELETE /api/requests/:requestId  - Delete a specific request
+    // Send the response
+    res.status(200).json(oneRequest);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+//DELETE /api/requests/:requestId  - Delete a specific request
 router.delete("/requests/:requestId", async (req, res, next) => {
   try {
     const { requestId } = req.params;
@@ -90,23 +93,23 @@ router.delete("/requests/:requestId", async (req, res, next) => {
       return;
     }
 
-    const foundRequest = await Request.findById(requestId)
-      .populate("requestedBy")
-      .populate("requestedFor");
+    // const foundRequest = await Request.findById(requestId)
+    //   // .populate("requestedBy")
+    //   // .populate("requestedFor");
 
-    console.log(foundRequest);
+    // console.log(foundRequest);
 
-    // Update user who created the request
-    const creatorUser = await User.findById(foundRequest.requestedBy);
-    const updatedCreatorUser = await User.findByIdAndUpdate(
-      foundRequest.requestedBy,
-      { $pull: { requestsMade: foundRequest._id } }
-    );
-    const contactedArtist = await Artist.findById(foundRequest.requestedFor);
-    const updatedcontactedArtist = await Artist.findByIdAndUpdate(
-      foundRequest.requestedFor,
-      { $pull: { requestedReceived: foundRequest._id } }
-    );
+    // //Update user who created the request
+    // const creatorUser = await User.findById(foundRequest.requestedBy);
+    // const updatedCreatorUser = await User.findByIdAndUpdate(
+    //   foundRequest.requestedBy,
+    //   { $pull: { requestsMade: foundRequest._id } }
+    // );
+    // const contactedArtist = await Artist.findById(foundRequest.requestedFor);
+    // const updatedcontactedArtist = await Artist.findByIdAndUpdate(
+    //   foundRequest.requestedFor,
+    //   { $pull: { requestedReceived: foundRequest._id } }
+    // );
 
     await Request.findByIdAndDelete(requestId);
 

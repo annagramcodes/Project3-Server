@@ -27,6 +27,9 @@ app.use("/auth", authRouter);
 const imageRouter = require("./routes/image.routes"); //  <== IMPORT
 app.use("/api", imageRouter);
 
+const imagesRouter = require("./routes/images.routes"); //  <== IMPORT
+app.use("/api", imagesRouter);
+
 const requestRouter = require("./routes/request.routes"); //  <== IMPORT
 app.use("/api", isAuthenticated, requestRouter);
 

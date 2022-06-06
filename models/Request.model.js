@@ -14,9 +14,11 @@ const requestSchema = new Schema({
   description: {
     type: String,
   },
-  imageUrl: {
-    type: String,
-  },
+  imagesUrl: [
+    {
+      type: String,
+    },
+  ],
   budget: {
     type: Number,
   },
