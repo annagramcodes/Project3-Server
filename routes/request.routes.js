@@ -2,8 +2,8 @@ const router = require("express").Router();
 const mongoose = require("mongoose");
 const fileUploader = require("../config/cloudinary.config");
 const Request = require("../models/Request.model");
-//const User = require("../models/User.model");
-//const Artist = require("../models/Artist.model");
+const User = require("../models/User.model");
+const Artist = require("../models/Artist.model");
 
 //GET /api/requests - Get all existing requests
 router.get("/requests", async (req, res, next) => {
@@ -18,6 +18,7 @@ router.get("/requests", async (req, res, next) => {
 });
 
 router.post("/requests/create", async (req, res, next) => {
+  const { _id } = req.payload;
   try {
     // Get the data from the request body
     const {
@@ -28,10 +29,11 @@ router.post("/requests/create", async (req, res, next) => {
       imagesUrl,
       budget,
       appointmentDate,
-      requestedBy,
-      requestedFor,
+      artistId,
     } = req.body;
+
     // Save the data in the db
+    // console.log(req.body);
     const createdRequest = await Request.create({
       placement,
       size,
@@ -40,21 +42,29 @@ router.post("/requests/create", async (req, res, next) => {
       imagesUrl,
       budget,
       appointmentDate,
-      requestedBy,
-      requestedFor,
+      requestedBy: _id,
+      requestedFor: artistId,
     });
-    console.log(appointmentDate);
-    res.status(201).json(createdRequest); // 201 Created
 
     // // Update user who created the request
-    // console.log({ createdRequest });
+    console.log({ createdRequest });
 
-    // const updatedClient = await User.findByIdAndUpdate(requestedBy, {
-    //   $push: { requestsMade: createdRequest._id },
-    // });
-    // const updatedArtist = await Artist.findByIdAndUpdate(requestedFor, {
-    //   $push: { requestsReceived: createdRequest._id },
-    // });
+    const updatedClient = await User.findByIdAndUpdate(
+      _id,
+      {
+        $push: { requestsMade: createdRequest._id },
+      },
+      { new: true }
+    );
+    const updatedArtist = await Artist.findByIdAndUpdate(
+      artistId,
+      {
+        $push: { requestsReceived: createdRequest._id },
+      },
+      { new: true }
+    );
+
+    res.status(201).json(createdRequest); // 201 Create
   } catch (error) {
     res.status(500).json(error); // Internal Server Error
   }
