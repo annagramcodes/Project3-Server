@@ -34,7 +34,7 @@ router.put(
         image = imageUrl;
       } else {
         image =
-          "https://res.cloudinary.com/da1zyjl9a/image/upload/v1654255779/tattoos/mystery_odzbzo.jpg";
+          "https://res.cloudinary.com/da1zyjl9a/image/upload/v1654589364/tattoos/mystery_atzvql.jpg";
       }
 
       const updatedUser = await User.findByIdAndUpdate(
