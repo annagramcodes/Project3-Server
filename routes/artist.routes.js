@@ -7,7 +7,7 @@ const fileUploader = require("../config/cloudinary.config");
 
 router.get("/artist", async (req, res, next) => {
   try {
-    const allArtists = await Artist.find();
+    const allArtists = await Artist.find().populate("owner");
     res.status(200).json(allArtists);
   } catch (error) {
     res.status(500).json(error);
@@ -30,7 +30,11 @@ router.get("/artist/byUser/:userId", (req, res, next) => {
 
   Artist.findOne({ owner: userId })
     .populate("requestsReceived")
-    .then((response) => res.json(response))
+    .then((response) => {
+      console.log(response);
+      res.json(response);
+    })
+
     .catch((err) => res.json(err));
 });
 
