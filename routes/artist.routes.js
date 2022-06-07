@@ -5,6 +5,15 @@ const Request = require("../models/Request.model");
 const jwt = require("jsonwebtoken");
 const fileUploader = require("../config/cloudinary.config");
 
+router.get("/artist", async (req, res, next) => {
+  try {
+    const allArtists = await Artist.find();
+    res.status(200).json(allArtists);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 // get Artist by artistId
 router.get("/artist/:artistId", (req, res, next) => {
   const { artistId } = req.params;
