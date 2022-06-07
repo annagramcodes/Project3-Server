@@ -19,6 +19,7 @@ router.get("/artist/:artistId", (req, res, next) => {
   const { artistId } = req.params;
 
   Artist.findById(artistId)
+
     .then((response) => res.json(response))
     .catch((err) => res.json(err));
 });
@@ -28,6 +29,7 @@ router.get("/artist/byUser/:userId", (req, res, next) => {
   const { userId } = req.params;
 
   Artist.findOne({ owner: userId })
+    .populate("requestsReceived")
     .then((response) => res.json(response))
     .catch((err) => res.json(err));
 });

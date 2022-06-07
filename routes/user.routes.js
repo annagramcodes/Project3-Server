@@ -8,7 +8,11 @@ router.get("/profile/:userId", (req, res, next) => {
   const { userId } = req.params;
 
   User.findById(userId)
-    .then((response) => res.json(response))
+    .populate("requestsMade")
+    .then((response) => {
+      console.log(response);
+      res.json(response);
+    })
     .catch((err) => res.json(err));
 });
 
