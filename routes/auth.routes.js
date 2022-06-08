@@ -71,7 +71,13 @@ router.post("/signup", (req, res) => {
       .then((user) => {
         const { _id, email, username, imageUrl, profileType } = user;
 
-        const payload = { _id, email, username, imageUrl, profileType };
+        const payload = {
+          _id,
+          email,
+          username,
+          imageUrl,
+          profileType,
+        };
 
         const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
           algorithm: "HS256",
@@ -125,7 +131,13 @@ router.post("/login", (req, res, next) => {
         }
         const { _id, email, username, imageUrl, profileType } = user;
 
-        const payload = { _id, email, username, imageUrl, profileType };
+        const payload = {
+          _id,
+          email,
+          username,
+          imageUrl,
+          profileType,
+        };
 
         const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
           algorithm: "HS256",

@@ -4,6 +4,7 @@ const Artist = require("../models/Artist.model");
 const Request = require("../models/Request.model");
 const jwt = require("jsonwebtoken");
 const fileUploader = require("../config/cloudinary.config");
+const User = require("../models/User.model");
 
 router.get("/artist", async (req, res, next) => {
   try {
@@ -29,7 +30,12 @@ router.get("/artist/byUser/:userId", (req, res, next) => {
   const { userId } = req.params;
 
   Artist.findOne({ owner: userId })
-    .populate("requestsReceived")
+    .populate({
+      path: "requestsReceived",
+      populate: {
+        path: "requestedBy",
+      },
+    })
     .then((response) => {
       console.log(response);
       res.json(response);
@@ -40,7 +46,7 @@ router.get("/artist/byUser/:userId", (req, res, next) => {
 
 router.post("/artist", async (req, res, next) => {
   const { _id } = req.payload;
-  console.log(req.body);
+
   try {
     // Get the data from the request body
     const {
@@ -48,11 +54,12 @@ router.post("/artist", async (req, res, next) => {
       businessHours,
       location,
       styles,
+
       // flashes: [{ price, size, estimatedTime, imageUrl }],
       requestsReceived,
       portfolioImages,
     } = req.body;
-    console.log(req.body);
+
     // Save the data in the db
     const createdArtist = await Artist.create({
       owner: _id,
@@ -71,7 +78,14 @@ router.post("/artist", async (req, res, next) => {
       requestsReceived,
       portfolioImages,
     });
-
+    const updatedUser = await User.findByIdAndUpdate(
+      _id,
+      {
+        artistProfile: createdArtist._id,
+      },
+      { new: true }
+    );
+    console.log(updatedUser);
     res.status(201).json(createdArtist); // 201 Created
 
     console.log({ createdArtist });
