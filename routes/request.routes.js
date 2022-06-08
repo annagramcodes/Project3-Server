@@ -129,53 +129,73 @@ router.delete("/requests/:requestId", async (req, res, next) => {
   }
 });
 
-router.put("/requests/:id/accept", async (req, res, next) => {
+router.put("/requests/:requestId/accept", async (req, res, next) => {
   try {
-    const { id } = req.params;
-    let request = await Request.findByIdAndUpdate(
-      id,
-      { status: true },
-      { new: true }
-    )
-
+    const { requestId } = req.params;
+    let request = await Request.findByIdAndUpdate(requestId, { new: true })
       .populate({
-        path: "requestedBy",
-        model: "User",
-      })
-      .populate({
-        path: "requestedFor",
-        model: "Artist",
+        path: "requestsMade",
+        populate: {
+          path: "requestedFor",
+        },
       })
       .populate({
         path: "requestsReceived",
-        model: "Artist",
-      })
-      .populate({
-        path: "requestsMade",
-        model: "User",
+        populate: {
+          path: "requestedBy",
+        },
       });
 
-    await Artist.findByIdAndUpdate(request.requestedFor._id, {
-      $pull: { requestsReceived: request._id },
-    });
+    // .populate({
+    //   path: "requestedBy",
+    //   model: "User",
+    // })
+    // .populate({
+    //   path: "requestedFor",
+    //   model: "Artist",
+    // })
+    // .populate({
+    //   path: "requestsReceived",
+    //   model: "Artist",
+    // })
+    // .populate({
+    //   path: "requestsMade",
+    //   model: "User",
+    // });
 
-    res.status(200).json(request);
+    const updatedRequest = await Artist.findByIdAndUpdate(
+      request.requestedFor._id,
+      {
+        $pull: { requestsReceived: request._id },
+      }
+    );
+
+    res.status(201).json(updatedRequest);
+
+    console.log({ updatedRequest });
   } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 });
 
-router.get("/requests/:id/reject", async (req, res, next) => {
+router.get("/requests/:requestId/reject", async (req, res, next) => {
   try {
-    const { id } = req.params;
-    let request = await Request.findByIdAndUpdate(id, { new: true });
+    const { requestId } = req.params;
+    let request = await Request.findByIdAndUpdate(requestId, { new: true });
 
-    await Artist.findByIdAndUpdate(request.requestedFor._id, {
-      $pull: { requestsReceived: request._id },
-    });
+    const updatedRequest = await Artist.findByIdAndUpdate(
+      request.requestedFor._id,
+      {
+        $pull: { requestsReceived: request._id },
+      }
+    );
 
-    res.status(200).json(request);
+    res.status(201).json(updatedRequest);
+
+    console.log({ updatedRequest });
   } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 });
