@@ -83,4 +83,31 @@ router.delete("/profile/:userId", async (req, res, next) => {
   }
 });
 
+///////////////////////////
+///add & remove favorites
+
+router.put("addFavorite", async (req, res, next) => {
+  try {
+    const { userId, artistId } = req.body;
+    console.log(req.body);
+
+    const foundUser = await User.findById(userId);
+
+    const response = (await foundUser.favoriteArtists.includes(artistId))
+      ? User.findByIdAndUpdate(
+          userId,
+          { $pull: { favoriteArtists: restaurantId } },
+          { new: true }
+        )
+      : User.findByIdAndUpdate(
+          userId,
+          { $push: { favoriteArtists: artistId } },
+          { new: true }
+        );
+    res.json(response);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 module.exports = router;
