@@ -129,7 +129,7 @@ router.delete("/requests/:requestId", async (req, res, next) => {
   }
 });
 
-router.get("/requests/:id/accept", async (req, res, next) => {
+router.put("/requests/:id/accept", async (req, res, next) => {
   try {
     const { id } = req.params;
     let request = await Request.findByIdAndUpdate(
