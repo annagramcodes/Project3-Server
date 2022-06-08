@@ -9,6 +9,7 @@ router.get("/profile/:userId", (req, res, next) => {
 
   User.findById(userId)
     .populate("requestsMade")
+    .populate("favoriteArtists")
     .then((response) => {
       console.log(response);
       res.json(response);
@@ -86,28 +87,27 @@ router.delete("/profile/:userId", async (req, res, next) => {
 ///////////////////////////
 ///add & remove favorites
 
-router.put("addFavorite", async (req, res, next) => {
-  try {
-    const { userId, artistId } = req.body;
-    console.log(req.body);
+router.put("/addFavorite", (req, res, next) => {
+  const { userId, artistId } = req.body;
+  console.log(req.body);
 
-    const foundUser = await User.findById(userId);
-
-    const response = (await foundUser.favoriteArtists.includes(artistId))
-      ? User.findByIdAndUpdate(
+  User.findById(userId)
+    .then((foundUser) => {
+      if (foundUser.favoriteArtists.includes(artistId)) {
+        return User.findByIdAndUpdate(
           userId,
-          { $pull: { favoriteArtists: restaurantId } },
+          { $pull: { favoriteArtists: artistId } },
           { new: true }
-        )
-      : User.findByIdAndUpdate(
+        ).then((response) => res.json(response));
+      } else {
+        return User.findByIdAndUpdate(
           userId,
           { $push: { favoriteArtists: artistId } },
           { new: true }
-        );
-    res.json(response);
-  } catch (err) {
-    console.log(err);
-  }
+        ).then((response) => res.json(response));
+      }
+    })
+    .catch((err) => res.json(err));
 });
 
 module.exports = router;
