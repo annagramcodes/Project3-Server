@@ -129,4 +129,55 @@ router.delete("/requests/:requestId", async (req, res, next) => {
   }
 });
 
+router.get("/requests/:id/accept", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    let request = await Request.findByIdAndUpdate(
+      id,
+      { status: true },
+      { new: true }
+    )
+
+      .populate({
+        path: "requestedBy",
+        model: "User",
+      })
+      .populate({
+        path: "requestedFor",
+        model: "Artist",
+      })
+      .populate({
+        path: "requestsReceived",
+        model: "Artist",
+      })
+      .populate({
+        path: "requestsMade",
+        model: "User",
+      });
+
+    await Artist.findByIdAndUpdate(request.requestedFor._id, {
+      $pull: { requestsReceived: request._id },
+    });
+
+    res.status(200).json(request);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+router.get("/requests/:id/reject", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    let request = await Request.findByIdAndUpdate(id, { new: true });
+
+    await Artist.findByIdAndUpdate(request.requestedFor._id, {
+      $pull: { requestsReceived: request._id },
+    });
+
+    res.status(200).json(request);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 module.exports = router;
