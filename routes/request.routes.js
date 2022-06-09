@@ -106,24 +106,6 @@ router.delete("/requests/:requestId", async (req, res, next) => {
       return;
     }
 
-    // const foundRequest = await Request.findById(requestId)
-    //   // .populate("requestedBy")
-    //   // .populate("requestedFor");
-
-    // console.log(foundRequest);
-
-    // //Update user who created the request
-    // const creatorUser = await User.findById(foundRequest.requestedBy);
-    // const updatedCreatorUser = await User.findByIdAndUpdate(
-    //   foundRequest.requestedBy,
-    //   { $pull: { requestsMade: foundRequest._id } }
-    // );
-    // const contactedArtist = await Artist.findById(foundRequest.requestedFor);
-    // const updatedcontactedArtist = await Artist.findByIdAndUpdate(
-    //   foundRequest.requestedFor,
-    //   { $pull: { requestedReceived: foundRequest._id } }
-    // );
-
     await Request.findByIdAndDelete(requestId);
 
     res.status(204).send(); // No Content
@@ -135,36 +117,11 @@ router.delete("/requests/:requestId", async (req, res, next) => {
 router.put("/requests/:requestId/accept", async (req, res, next) => {
   try {
     const { requestId } = req.params;
-    let request = await Request.findByIdAndUpdate(requestId, { new: true });
-    // .populate({
-    //   path: "requestsMade",
-    //   populate: {
-    //     path: "requestedFor",
-    //   },
-    // })
-    // .populate({
-    //   path: "requestsReceived",
-    //   populate: {
-    //     path: "requestedBy",
-    //   },
-    // });
-
-    // .populate({
-    //   path: "requestedBy",
-    //   model: "User",
-    // })
-    // .populate({
-    //   path: "requestedFor",
-    //   model: "Artist",
-    // })
-    // .populate({
-    //   path: "requestsReceived",
-    //   model: "Artist",
-    // })
-    // .populate({
-    //   path: "requestsMade",
-    //   model: "User",
-    // });
+    let request = await Request.findByIdAndUpdate(
+      requestId,
+      { status: "accepted" },
+      { new: true }
+    );
 
     const updatedRequest = await Artist.findByIdAndUpdate(
       request.requestedFor._id
