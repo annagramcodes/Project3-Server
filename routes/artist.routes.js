@@ -20,6 +20,7 @@ router.get("/artist/:artistId", (req, res, next) => {
   const { artistId } = req.params;
 
   Artist.findById(artistId)
+    .populate("requestsReceived")
 
     .then((response) => res.json(response))
     .catch((err) => res.json(err));

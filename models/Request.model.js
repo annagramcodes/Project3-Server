@@ -26,6 +26,10 @@ const requestSchema = new Schema({
     type: Number,
   },
   appointmentDate: Date,
+  status: {
+    type: String,
+    enum: ["accepted", "rejected", "pending"],
+  },
 });
 
 const Request = model("Request", requestSchema);

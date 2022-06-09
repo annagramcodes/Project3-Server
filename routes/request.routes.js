@@ -46,6 +46,7 @@ router.post("/requests/create", async (req, res, next) => {
       appointmentDate,
       requestedBy: _id,
       requestedFor: artistId,
+      status: "pending",
     });
 
     // // Update user who created the request
@@ -166,10 +167,7 @@ router.put("/requests/:requestId/accept", async (req, res, next) => {
     // });
 
     const updatedRequest = await Artist.findByIdAndUpdate(
-      request.requestedFor._id,
-      {
-        $pull: { requestsReceived: request._id },
-      }
+      request.requestedFor._id
     );
 
     res.status(201).json(updatedRequest);
@@ -184,13 +182,14 @@ router.put("/requests/:requestId/accept", async (req, res, next) => {
 router.put("/requests/:requestId/reject", async (req, res, next) => {
   try {
     const { requestId } = req.params;
-    let request = await Request.findByIdAndUpdate(requestId, { new: true });
+    let request = await Request.findByIdAndUpdate(
+      requestId,
+      { status: "rejected" },
+      { new: true }
+    );
 
     const updatedRequest = await Artist.findByIdAndUpdate(
-      request.requestedFor._id,
-      {
-        $pull: { requestsReceived: request._id },
-      }
+      request.requestedFor._id
     );
 
     res.status(201).json(updatedRequest);
