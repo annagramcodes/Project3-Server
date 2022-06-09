@@ -22,6 +22,7 @@ router.post("/requests/create", async (req, res, next) => {
   try {
     // Get the data from the request body
     const {
+      title,
       placement,
       size,
       color,
@@ -35,6 +36,7 @@ router.post("/requests/create", async (req, res, next) => {
     // Save the data in the db
     // console.log(req.body);
     const createdRequest = await Request.create({
+      title,
       placement,
       size,
       color,
@@ -132,19 +134,19 @@ router.delete("/requests/:requestId", async (req, res, next) => {
 router.put("/requests/:requestId/accept", async (req, res, next) => {
   try {
     const { requestId } = req.params;
-    let request = await Request.findByIdAndUpdate(requestId, { new: true })
-      .populate({
-        path: "requestsMade",
-        populate: {
-          path: "requestedFor",
-        },
-      })
-      .populate({
-        path: "requestsReceived",
-        populate: {
-          path: "requestedBy",
-        },
-      });
+    let request = await Request.findByIdAndUpdate(requestId, { new: true });
+    // .populate({
+    //   path: "requestsMade",
+    //   populate: {
+    //     path: "requestedFor",
+    //   },
+    // })
+    // .populate({
+    //   path: "requestsReceived",
+    //   populate: {
+    //     path: "requestedBy",
+    //   },
+    // });
 
     // .populate({
     //   path: "requestedBy",
@@ -179,7 +181,7 @@ router.put("/requests/:requestId/accept", async (req, res, next) => {
   }
 });
 
-router.get("/requests/:requestId/reject", async (req, res, next) => {
+router.put("/requests/:requestId/reject", async (req, res, next) => {
   try {
     const { requestId } = req.params;
     let request = await Request.findByIdAndUpdate(requestId, { new: true });

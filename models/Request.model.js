@@ -2,6 +2,9 @@ const { Schema, model } = require("mongoose");
 const requestSchema = new Schema({
   requestedBy: { type: Schema.Types.ObjectId, ref: "User" },
   requestedFor: { type: Schema.Types.ObjectId, ref: "Artist" },
+  title: {
+    type: String,
+  },
   placement: {
     type: String,
   },
