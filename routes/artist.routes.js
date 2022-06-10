@@ -32,6 +32,7 @@ router.get("/artist/byUser/:userId", (req, res, next) => {
   const { userId } = req.params;
 
   Artist.findOne({ owner: userId })
+    .populate("owner")
     .populate({
       path: "requestsReceived",
       populate: {
