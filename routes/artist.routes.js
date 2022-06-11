@@ -31,6 +31,7 @@ router.get("/artist/byUser/:userId", (req, res, next) => {
   const { userId } = req.params;
 
   Artist.findOne({ owner: userId })
+    .populate("owner")
     .populate({
       path: "requestsReceived",
       populate: {
@@ -109,10 +110,10 @@ router.put("/artist/:artistId", async (req, res, next) => {
       flashes,
       requestsReceived,
       portfolioImages,
-      owner,
+      owner: { _id: ownerId },
     } = req.body;
 
-    if (_id != owner) {
+    if (_id != ownerId) {
       res.status(403).json({ errorMessage: "Unauthorized user" });
       return;
     }
